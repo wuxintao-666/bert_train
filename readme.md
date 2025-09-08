@@ -27,5 +27,6 @@ python train.py
 2. 混淆矩阵图（confusion_matrix.png）
 3. 测试集评估结果
 
+文档链接:https://tcn7a8n0xztt.feishu.cn/wiki/B9f3wycCyi1Nj9komQpcrNnwn6g?from=from_copylink
 
 ⚠️ 注意：每次实验参数变更后请及时更新文档记录
