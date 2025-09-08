@@ -361,5 +361,5 @@ print("\n混淆矩阵已保存为 confusion_matrix.png")
 
 # 保存训练历史
 history_df = pd.DataFrame(history)
-history_df.to_csv('training_history.csv', index=False)
+#history_df.to_csv('training_history.csv', index=False)
 print("训练历史已保存到 training_history.csv")
