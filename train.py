@@ -44,8 +44,34 @@ import torch.nn.functional as F
 # 1. 读取数据
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print("开始读数据...")
-df = pd.read_csv('merged_emotion.csv')  # 替换为你的文件名
+df = pd.read_csv('devgptemotion.csv')  # 替换为你的文件名
+rate = [1, 2, 4]  # negative:positive:neutral
+def resample_fixed_ratio(df, target_ratios, random_state=42):
+    target_order = ['negative', 'positive', 'neutral']  # 指定类别顺序
+    
+    if len(target_order) != len(target_ratios):
+        raise ValueError("类别数和目标比例长度不一致")
 
+    class_counts = df['PromptEmotion'].value_counts()
+
+    # 计算最大可行倍数 k
+    k_values = []
+    for cls, ratio in zip(target_order, target_ratios):
+        k_values.append(class_counts[cls] / ratio)
+    k = min(k_values)
+
+    k = np.floor(k)
+
+    sampled_dfs = []
+    for cls, ratio in zip(target_order, target_ratios):
+        target_size = int(np.floor(k * ratio))   # 向下取整
+        cls_df = df[df['PromptEmotion'] == cls]
+        sampled = cls_df.sample(target_size, random_state=random_state, replace=False)
+        sampled_dfs.append(sampled)
+
+    return pd.concat(sampled_dfs).sample(frac=1, random_state=random_state)
+
+df = resample_fixed_ratio(df, rate)
 # 不采样
 df_0 = df[df['PromptEmotion'] == 'positive']
 df_1 = df[df['PromptEmotion'] == 'negative']
