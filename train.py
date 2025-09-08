@@ -178,7 +178,7 @@ scheduler = get_linear_schedule_with_warmup(
     num_training_steps=total_steps
 )
 
-patience = 5  # 早停容忍轮数
+patience = 6  # 早停容忍轮数
 counter = 0   # 没有提升的轮数
 best_f1 = 0   # 记录最佳验证集Macro-F1
 best_model_path = './bert_sentiment_best_model'  # 模型保存路径
